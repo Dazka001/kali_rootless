@@ -1,1 +1,5 @@
-# skynet-network-stack
+images/
+*.iso
+*.log
+.cache/
+build/
