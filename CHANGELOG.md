@@ -14,7 +14,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.
 ### Cambiado
 - `README.md` mejorado con más detalles, sección de FAQ y troubleshooting.
 
-## [1.0.0] - 2024-01-01 (Fecha de ejemplo)
+## [1.0.0] - 2025-07-18
 
 ### Añadido
 - Script inicial `install.sh` para descargar y configurar Kali Linux.
