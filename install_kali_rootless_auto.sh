@@ -1,64 +1,65 @@
 #!/data/data/com.termux/files/usr/bin/bash
 # ------------------------------------------------------------
-# install_kali_rootless_auto.sh
-# Instalación 100 % automática de Kali NetHunter Rootless FULL
-# con parche 404, checksum, escritorio XFCE y KeX listo.
+# install_kali_rootless_auto_extendido.sh
+# Instalación robusta y 100% automatizada de Kali NetHunter Rootless
+# con verificación manual, sin menús, y con entorno XFCE + KeX
 # ------------------------------------------------------------
+
 set -e
 
-# 0) Dependencias básicas
-pkg update -y
-pkg install -y wget curl git proot tar sed coreutils
+echo "🔧 Preparando entorno para instalación..."
 
-# 1) Variables
+# Dependencias básicas
+pkg update -y
+pkg install -y wget curl git proot tar sed coreutils axel
+
+# Variables
 ROOTFS_VER="kali-2024.3"
 ROOTFS_FILE="kali-nethunter-rootfs-full-arm64.tar.xz"
-BASE_URL="https://old.kali.org/nethunter-images/${ROOTFS_VER}/rootfs"
-SCRIPT_OFFICIAL="install-nethunter-termux"
-INSTALL_DIR="$HOME/.nethunter"
+ROOTFS_URL="https://old.kali.org/nethunter-images/${ROOTFS_VER}/rootfs/${ROOTFS_FILE}"
+SHA_URL="${ROOTFS_URL}.sha512sum"
+INSTALL_DIR="$HOME/kali-arm64"
+NH_BIN="$PREFIX/bin/nh"
 POST_SCRIPT="$HOME/kali_postinstall.sh"
 
-mkdir -p "$INSTALL_DIR"
-cd "$INSTALL_DIR"
-
-# 2) Descarga rootfs y checksum
-echo -e "\n📦 Descargando rootfs (${ROOTFS_FILE})…"
-wget -q --show-progress "${BASE_URL}/${ROOTFS_FILE}"
-wget -q "${BASE_URL}/${ROOTFS_FILE}.sha512sum"
-
-echo "🧮 Verificando checksum…"
+# Descargar RootFS y verificar integridad
+echo "📥 Descargando rootfs..."
+axel -n 8 -o "$ROOTFS_FILE" "$ROOTFS_URL"
+wget -q "$SHA_URL"
+echo "🔐 Verificando SHA512..."
 sha512sum -c "${ROOTFS_FILE}.sha512sum"
 
-# 3) Script oficial + parche URL
-echo "⬇️  Descargando instalador oficial y aplicando parche 404…"
-wget -q -O "$SCRIPT_OFFICIAL" https://offs.ec/2MceZWr
-chmod +x "$SCRIPT_OFFICIAL"
-sed -i 's|kali\.download/nethunter-images/current|old.kali.org/nethunter-images/kali-2024.3|' "$SCRIPT_OFFICIAL"
+# Extraer rootfs
+echo "📦 Extrayendo rootfs en $INSTALL_DIR..."
+mkdir -p "$INSTALL_DIR"
+proot --link2symlink tar -xJf "$ROOTFS_FILE" -C "$INSTALL_DIR"
 
-# 4) Instalación sin menú (pasa rootfs local)
-echo "🚀 Instalando NetHunter Rootless (FULL)…"
-bash "$SCRIPT_OFFICIAL" -f "$ROOTFS_FILE" -d
+# Crear script de entrada: nh
+echo "🚀 Configurando comando nh..."
+cat > "$NH_BIN" <<EOF
+#!/data/data/com.termux/files/usr/bin/bash
+unset LD_PRELOAD
+command="proot --link2symlink -0 -r \$HOME/kali-arm64 -b /dev -b /proc -b /sys -b \$HOME:/root -w /root /bin/bash"
+exec \$command "\$@"
+EOF
 
-# 5) Asegurar que el comando nh existe
-if ! command -v nh &>/dev/null; then
-  echo -e '#!/data/data/com.termux/files/usr/bin/bash\nchroot $HOME/kali-arm64 /bin/bash "$@"' > $PREFIX/bin/nh
-  chmod +x $PREFIX/bin/nh
-  echo "✅ Comando nh creado en $PREFIX/bin/nh"
+chmod +x "$NH_BIN"
+
+# Descargar postinstall personalizado si no existe
+if [ ! -f "$POST_SCRIPT" ]; then
+  echo "⬇️  Descargando postinstalación personalizada..."
+  curl -sSL https://raw.githubusercontent.com/Dazka001/kali_rootless/main/kali_postinstall.sh -o "$POST_SCRIPT"
+  chmod +x "$POST_SCRIPT"
 fi
 
-# 6) Crear postinstall dentro de Kali
-cat <<'EOKALI' > "$POST_SCRIPT"
-#!/usr/bin/env bash
-echo "🔐 Configurando contraseña KeX (por defecto: toor)…"
-echo -e "toor\ntoor" | nethunter kex passwd
-echo "🌐 Actualizando e instalando XFCE + VNC…"
-sudo apt update -y
-sudo apt install -y xfce4 dbus-x11 tigervnc-standalone-server
-echo -e "\n✅ Post-instalación terminada. Ejecuta:\n   nethunter kex &\n…y conéctate desde la app KeX (localhost:5901, pass toor)."
-EOKALI
-chmod +x "$POST_SCRIPT"
+# Alias en ~/.bashrc si no existe
+if ! grep -q "alias nh=" "$HOME/.bashrc"; then
+  echo "📌 Agregando alias al ~/.bashrc"
+  echo "alias nh='$NH_BIN'" >> "$HOME/.bashrc"
+fi
 
-echo -e "\n🎉  Todo listo:"
-echo "➊ Escribe   nh   para entrar en Kali."
+# Final
+echo -e "\n✅ Instalación COMPLETA de Kali Rootless"
+echo "➊ Ejecuta   nh   para ingresar a Kali"
 echo "➋ Dentro de Kali ejecuta   ~/kali_postinstall.sh"
-echo "➌ Luego   nethunter kex &   y conecta con KeX (pass toor)."
+echo "➌ Luego inicia con   nethunter kex &   y conéctate desde KeX"
