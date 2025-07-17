@@ -1,6 +1,9 @@
+![version](https://img.shields.io/badge/version-1.0.0-green)
+![license](https://img.shields.io/badge/license-MIT-blue)
+
 # Kali Rootless Installer
 
-![Captura del escritorio XFCE personalizado](assents/file_00000000ff5061f89cb68632c15d719e.png)
+![XFCE Desktop](assets/xfce_custom_panel.png)
 
 Un conjunto de scripts para instalar y gestionar de forma sencilla una instancia de Kali Linux en un entorno **rootless**, ideal para aplicaciones como Termux en Android. Accede a las herramientas de Kali sin necesidad de rootear tu dispositivo.
 
