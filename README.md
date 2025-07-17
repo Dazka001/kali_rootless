@@ -80,7 +80,7 @@ nh
 5. Inicia KeX y abre la app “NetHunter KeX”:
 
 ```bash
-nethunter kex &
+nethunter kex 
 ```
 
 - Host: `localhost`
