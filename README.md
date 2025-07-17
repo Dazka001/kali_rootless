@@ -35,12 +35,12 @@ Este repositorio contiene una **instalación 100 % automatizada** y mejorada de 
 
 ## 📲 Requisitos 
 
-### 1. Instala Termux (desde F-Droid, no Google Play)
+### • Instala Termux (desde F-Droid, no Google Play)
 
 - [F-Droid Termux] [actualizados](https://f-droid.org/packages/com.termux/)
 - O [GitHub Releases oficial](https://github.com/termux/termux-app/releases)
 
-``
+  
 ## Cómo usar
 
 Para instalar Kali NetHunter Rootless con entorno XFCE y soporte KeX completamente personalizado, sigue los pasos a continuación:
