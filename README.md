@@ -35,9 +35,9 @@ Este repositorio contiene una **instalación 100 % automatizada** y mejorada de 
 
 ## 📲 Requisitos 
 
-### • Instala Termux (desde F-Droid, no Google Play)
+### • Instala Termux (desde F-Droid, no Google Play / Actualizados)
 
-- [F-Droid Termux] [actualizados](https://f-droid.org/packages/com.termux/)
+- [F-Droid Termux](https://f-droidorg/packages/com.termux/)
 - O [GitHub Releases oficial](https://github.com/termux/termux-app/releases)
 
   
