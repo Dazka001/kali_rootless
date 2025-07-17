@@ -1,94 +1,101 @@
-
-# ⚔️ Kali NetHunter Rootless Automatizado con XFCE + KeX (by @Dazka001)
-
-Este repositorio contiene una **instalación 100 % automatizada** y mejorada de **Kali NetHunter Rootless**, adaptada especialmente para Termux en Android. Incluye soporte completo para escritorio XFCE, cliente gráfico KeX, postinstalación personalizada y herramientas de personalización del panel XFCE con lanzadores de herramientas OSINT y de pentesting.
+# Kali Rootless Installer
 
 ![Captura del escritorio XFCE personalizado](assents/file_00000000ff5061f89cb68632c15d719e.png)
----
 
-## 🚀 ¿Qué incluye?
-
-✅ Instalación FULL de Kali NetHunter (v2024.3)  
-✅ Escritorio XFCE completo + TigerVNC  
-✅ Cliente gráfico KeX listo para usar  
-✅ Script de postinstalación personalizable  
-✅ Comando `nh` creado automáticamente  
-✅ Alias y ajustes añadidos al `.bashrc`  
-✅ Personalizador de panel con lanzadores hacking/OSINT  
-✅ Verificación SHA512 del rootfs  
-✅ Descarga rápida con `axel`  
-✅ Evita errores de repositorio y menús rotos (parche incluido)
+Un conjunto de scripts para instalar y gestionar de forma sencilla una instancia de Kali Linux en un entorno **rootless**, ideal para aplicaciones como Termux en Android. Accede a las herramientas de Kali sin necesidad de rootear tu dispositivo.
 
 ---
 
-## 📦 Archivos principales
+## Características
 
-| Archivo | Función |
-|--------|--------|
-| `install_kali_rootless_auto.sh` | Script principal de instalación (versión extendida) |
-| `kali_postinstall.sh` | Postinstalación automática desde dentro de Kali |
-| `reset_xfce_panel.sh` | Script interactivo para restaurar o personalizar el panel XFCE |
-| `kali_customize.sh` *(opcional)* | Personalización extra: neofetch, alias, herramientas ofensivas y defensivas |
-| `kali-panel-xfce-custom-iso/` | Archivos `.desktop` para integración con menú gráfico |
+- **Instalación Automatizada:** El script `install.sh` descarga e instala una imagen base de Kali Linux.
+- **Acceso Fácil:** El script `kali.sh` inicia sesión en el entorno Kali de forma rápida.
+- **Ligero y Rootless:** No requiere privilegios de superusuario, manteniendo la seguridad de tu sistema base.
+- **Soporte para Sonido:** Incluye configuración básica para `pulseaudio`.
 
 ---
 
-## 📲 Requisitos 
+## Requisitos Previos
 
-### • Instala Termux (desde F-Droid, no Google Play / Actualizados)
+Antes de empezar, asegúrate de tener lo siguiente:
 
-- [F-Droid Termux](https://f-droidorg/packages/com.termux/)
-- O [GitHub Releases oficial](https://github.com/termux/termux-app/releases)
+- **Termux:** Una versión actualizada desde [F-Droid](https://f-droid.org/en/packages/com.termux/). Las versiones de la Play Store están obsoletas y no funcionarán.
+- **Almacenamiento:** Al menos 5 GB de espacio libre en el almacenamiento interno.
+- **Dependencias:** Los siguientes paquetes deben estar instalados en Termux. El script de instalación intentará instalarlos automáticamente.
+  - `wget`
+  - `proot`
+  - `tar`
+  - `pulseaudio`
 
-  
-## Cómo usar
+---
 
-Para instalar Kali NetHunter Rootless con entorno XFCE y soporte KeX completamente personalizado, sigue los pasos a continuación:
+## 🚀 Instalación y Uso
 
-1. Clona este repositorio y accede a la carpeta del proyecto:
+### 1. Clonar el Repositorio
+Abre Termux y ejecuta los siguientes comandos:
 
 ```bash
-git clone https://github.com/Dazka001/kali_rootless.git
+# Actualiza los paquetes de Termux
+pkg update && pkg upgrade -y
+
+# Instala git para clonar el repositorio
+pkg install git -y
+
+# Clona este repositorio
+git clone [https://github.com/Dazka001/kali_rootless.git](https://github.com/Dazka001/kali_rootless.git)
+
+# Entra en el directorio
 cd kali_rootless
 ```
 
-2. Ejecuta el script automatizado principal:
+### 2. Ejecutar el Script de Instalación
+Dale permisos de ejecución al script `install.sh` y lánzalo:
 
 ```bash
-bash install_kali_rootless_auto.sh
+chmod +x install.sh
+./install.sh
 ```
+El script descargará la imagen de Kali (~1.5 GB) y la descomprimirá. Este proceso puede tardar varios minutos dependiendo de tu conexión a internet.
 
-Este script:
-- Descarga el rootfs completo de Kali NetHunter.
-- Verifica el checksum SHA512.
-- Aplica el parche del error 404.
-- Instala XFCE, VNC y deja listo KeX.
-- Crea el comando `nh` como acceso directo.
-
-3. Accede a Kali:
+### 3. Iniciar Kali Linux
+Una vez terminada la instalación, puedes iniciar sesión en tu nuevo entorno Kali en cualquier momento con:
 
 ```bash
-nh
+./kali.sh
 ```
+¡Y listo! Estarás dentro de la terminal de Kali Linux.
 
-4. Dentro de Kali, ejecuta el script de postinstalación para configurar el entorno gráfico:
+---
 
+## Detalles de los Scripts
+
+- `install.sh`: Realiza la instalación principal. Descarga la imagen `kali-linux-arm64-rootfs.tar.gz`, la extrae y configura los directorios necesarios.
+- `kali.sh`: Es el lanzador principal. Utiliza `proot` para iniciar una sesión de shell dentro del entorno de Kali, montando los directorios vitales del sistema (`/dev`, `/proc`, etc.) y configurando el servidor de sonido `pulseaudio`.
+
+---
+
+##  Troubleshooting y FAQ
+
+Aquí tienes soluciones a problemas comunes.
+
+**P: El script `install.sh` falla con un error de "404 Not Found".**
+**R:** La URL de descarga de la imagen de Kali puede haber cambiado. Abre el archivo `install.sh` y verifica que la variable `KALI_URL` contenga un enlace válido. Puedes buscar la última versión en la [página oficial de Kali](https://www.kali.org/get-kali/#kali-bare-metal).
+
+**P: Recibo un error de `proot` al ejecutar `kali.sh`.**
+**R:** Asegúrate de que `proot` está instalado correctamente (`pkg install proot`). También verifica que la instalación no se haya corrompido. Si el problema persiste, intenta borrar el directorio `kali-fs` y ejecuta `install.sh` de nuevo.
+
+**P: No tengo sonido en las aplicaciones gráficas de Kali.**
+**R:** El script `kali.sh` intenta iniciar `pulseaudio`, pero la configuración puede variar. Asegúrate de haber instalado `pulseaudio` en Termux (`pkg install pulseaudio`) y de haberlo iniciado (`pulseaudio --start`).
+
+**P: ¿Cómo actualizo los paquetes dentro de Kali?**
+**R:** Una vez dentro del entorno Kali (después de ejecutar `./kali.sh`), puedes usar `apt` como de costumbre:
 ```bash
-~/kali_postinstall.sh
+apt update
+apt upgrade
 ```
 
-5. Inicia KeX y abre la app “NetHunter KeX”:
+---
 
-```bash
-nethunter kex 
-```
+## Contribuir
 
-- Host: `localhost`
-- Port: `5901`
-- Password: `toor`
-
-6. (Opcional) Personaliza el panel XFCE con tu script:
-
-```bash
-bash restablecer_xfce_panel.sh
-```
+¡Las contribuciones son bienvenidas! Si quieres mejorar este proyecto, por favor lee el archivo [CONTRIBUTING.md](CONTRIBUTING.md) para conocer las pautas.
