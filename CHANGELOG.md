@@ -1,25 +1,24 @@
 # Changelog
 
-Todos los cambios notables en este proyecto serán documentados en este archivo.
+Todos los cambios importantes en este proyecto se documentarán en este archivo.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), y este proyecto se adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Este proyecto sigue el formato de [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y adopta la versión semántica [SemVer](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
 ### Añadido
 - Archivo `CHANGELOG.md` para registrar los cambios del proyecto.
-- Archivo `CONTRIBUTING.md` con pautas para colaboradores.
-- Plantillas de `Issue` y `Pull Request` para estandarizar las contribuciones.
+- Archivo `CONTRIBUTING.md` con pautas claras para colaboradores.
+- Plantillas de `Issue` y `Pull Request` en `.github/` para estandarizar aportes.
+- Instrucciones de troubleshooting y preguntas frecuentes en `README.md`.
 
 ### Cambiado
-- `README.md` mejorado con más detalles, sección de FAQ y troubleshooting.
+- `README.md` ampliado con ejemplos, imagen del escritorio XFCE, y pasos detallados.
 
 ## [1.0.0] - 2025-07-18
 
-### Added
-- Script `uninstall.sh` para una eliminación limpia y segura del entorno.
-
 ### Añadido
-- Script inicial `install.sh` para descargar y configurar Kali Linux.
-- Script `kali.sh` para iniciar el entorno `proot`.
-- Configuración básica para `pulseaudio`.
+- Script `install.sh` para instalación automatizada de Kali NetHunter Rootless.
+- Script `kali.sh` para iniciar el entorno con `proot`.
+- Script `uninstall.sh` para desinstalación limpia del entorno.
+- Configuración básica de `pulseaudio` para soporte de audio.
