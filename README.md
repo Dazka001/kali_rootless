@@ -46,3 +46,55 @@ Este repositorio contiene una **instalación 100 % automatizada** y mejorada de 
 cd ~
 git clone https://github.com/Dazka001/kali_rootless.git
 cd kali_rootless
+
+## Cómo usar
+
+Para instalar Kali NetHunter Rootless con entorno XFCE y soporte KeX completamente personalizado, sigue los pasos a continuación:
+
+1. Clona este repositorio y accede a la carpeta del proyecto:
+
+```bash
+git clone https://github.com/Dazka001/kali_rootless.git
+cd kali_rootless
+```
+
+2. Ejecuta el script automatizado principal:
+
+```bash
+bash install_kali_rootless_auto.sh
+```
+
+Este script:
+- Descarga el rootfs completo de Kali NetHunter.
+- Verifica el checksum SHA512.
+- Aplica el parche del error 404.
+- Instala XFCE, VNC y deja listo KeX.
+- Crea el comando `nh` como acceso directo.
+
+3. Accede a Kali:
+
+```bash
+nh
+```
+
+4. Dentro de Kali, ejecuta el script de postinstalación para configurar el entorno gráfico:
+
+```bash
+~/kali_postinstall.sh
+```
+
+5. Inicia KeX y abre la app “NetHunter KeX”:
+
+```bash
+nethunter kex &
+```
+
+- Host: `localhost`
+- Port: `5901`
+- Password: `toor`
+
+6. (Opcional) Personaliza el panel XFCE con tu script:
+
+```bash
+bash restablecer_xfce_panel.sh
+```
