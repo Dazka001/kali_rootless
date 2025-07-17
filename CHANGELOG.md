@@ -4,8 +4,6 @@ Todos los cambios importantes en este proyecto se documentarán en este archivo.
 
 Este proyecto sigue el formato de [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y adopta la versión semántica [SemVer](https://semver.org/lang/es/).
 
-## [Unreleased]
-
 ### Añadido
 - Archivo `CHANGELOG.md` para registrar los cambios del proyecto.
 - Archivo `CONTRIBUTING.md` con pautas claras para colaboradores.
