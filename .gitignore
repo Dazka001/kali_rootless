@@ -1,5 +1,14 @@
+# Carpetas comunes
 images/
-*.iso
-*.log
 .cache/
 build/
+
+# Archivos de instalación pesados
+*.iso
+*.tar.xz
+*.sha512sum
+
+# Archivos temporales
+*.log
+*.bak
+*.tmp
