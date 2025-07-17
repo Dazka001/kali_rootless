@@ -70,6 +70,19 @@ Una vez terminada la instalación, puedes iniciar sesión en tu nuevo entorno Ka
 
 ---
 
+### 🧹 Desinstalación
+
+Si deseas eliminar el entorno de Kali Linux, puedes usar el script de desinstalación. Este comando borrará la carpeta `kali-fs` con todo su contenido.
+
+**Importante:** Esta acción es irreversible y borrará todos los datos dentro de tu instancia de Kali.
+
+Para ejecutarlo, usa:
+
+```bash
+chmod +x uninstall.sh
+./uninstall.sh
+
+```
 ## Detalles de los Scripts
 
 - `install.sh`: Realiza la instalación principal. Descarga la imagen `kali-linux-arm64-rootfs.tar.gz`, la extrae y configura los directorios necesarios.
