@@ -47,7 +47,11 @@
 Formato:
 
 ```
-<tipo>(<ámbito opcional>): <descripción corta>
+feat(rootless): añade soporte para instalación automática
+fix(uninstall): corrige error al eliminar carpeta inexistente
+docs(readme): actualiza pasos de uso con nueva imagen
+style(panel): corrige identado y variables no usadas
+chore(repo): reorganiza estructura y limpia scripts viejos
 ```
 
 **Tipos comunes:**
