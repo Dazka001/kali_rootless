@@ -16,6 +16,9 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.
 
 ## [1.0.0] - 2025-07-18
 
+### Added
+- Script `uninstall.sh` para una eliminación limpia y segura del entorno.
+
 ### Añadido
 - Script inicial `install.sh` para descargar y configurar Kali Linux.
 - Script `kali.sh` para iniciar el entorno `proot`.
