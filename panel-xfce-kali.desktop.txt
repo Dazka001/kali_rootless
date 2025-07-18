@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Name=Personalizar Panel XFCE
-Comment=Restaurar o configurar lanzadores de hacking en XFCE
-Exec=/usr/local/bin/panel-xfce-kali.sh
-Icon=utilities-terminal
-Terminal=true
-Type=Application
-Categories=Utility;
