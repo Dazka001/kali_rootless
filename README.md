@@ -1,6 +1,7 @@
 # 🐉 Nexus Kali
 
-![Nexus Kali – entorno de hacking con escritorio gráfico XFCE](assets/nexus_kali_banner.png)
+![XFCE Desktop](assets/xfce_custom_panel.png)
+
 
 ## 📚 Contenido
 
