@@ -1,12 +1,8 @@
-# 🐳 Kali Rootless XFCE via Docker
+---
 
-Versión dockerizada de Kali Linux con entorno gráfico XFCE y servidor VNC listo para usar. Incluye personalizaciones como:
+# 🐳 Kali Rootless XFCE vía Docker
 
-- Escritorio XFCE preconfigurado
-- Lanzadores personalizados para herramientas de hacking
-- Scripts automatizados de post-instalación
-- Servidor VNC expuesto en el puerto `5901`
-- Usuario no root (`kali`) sin contraseña
+Versión dockerizada de Kali Linux con entorno gráfico XFCE, herramientas OSINT y servidor VNC preconfigurado. Diseñado para entornos de hacking ético, análisis forense o pruebas de seguridad de forma portátil y aislada.
 
 ---
 
@@ -14,87 +10,134 @@ Versión dockerizada de Kali Linux con entorno gráfico XFCE y servidor VNC list
 
 - Docker
 - Docker Compose (opcional pero recomendado)
-- Cliente VNC (ej. VNC Viewer o Remmina)
+- Cliente VNC (ej: TigerVNC, Remmina, RealVNC)
+- Git (para clonar el repositorio)
 
 ---
 
-
-## 🚀 Instrucciones rápidas
+## 🚀 Instalación rápida
 
 ```bash
-# Clona el repositorio
 git clone https://github.com/Dazka001/kali_rootless.git
 cd kali_rootless/docker
-
-# Construye la imagen
 docker-compose build
-
-# Inicia el contenedor en segundo plano
 docker-compose up -d
 ```
 
----
+✅ La primera ejecución instalará XFCE, configurará el servidor VNC y desplegará lanzadores útiles.
 
-## 🖥️ Acceso al entorno gráfico
-
-
-Conéctate a `localhost:5901` con un cliente VNC. La contraseña por defecto es:
- `kali`
- 
----------
-
-
-> 💡 Puedes modificar el tamaño de pantalla desde `start.sh`.
 
 ---
 
-## 🧩 Estructura del Proyecto
+🖥️ Acceso al entorno gráfico (XFCE)
 
-```
+1. Abre tu cliente VNC y conéctate a:
+
+   localhost: `5901`
+
+
+2. Contraseña predeterminada:
+  
+   `kali`
+
+   
+
+
+
+
+
+> 💡 Puedes modificar resolución y profundidad de color editando start.sh.
+
+
+
+
+---
+
+🛠️ Scripts incluidos
+
+start.sh: Inicializa XFCE + VNC con resolución definida
+
+reset_xfce_panel.sh: Restaura el panel con accesos rápidos (Terminal, Firefox, Burp, etc.)
+
+kali_postinstall.sh: Automatiza instalación de herramientas de hacking y OSINT
+
+uninstall.sh: Limpia contenedor y volúmenes
+
+
+
+---
+
+# 📁 Estructura del Proyecto
+
+```text
 kali_rootless/
 ├── docker/
 │   ├── Dockerfile
 │   ├── docker-compose.yml
 │   ├── start.sh
 │   ├── kali_postinstall.sh
-│   └── reset_xfce_panel.sh
+│   ├── reset_xfce_panel.sh
+│   └── uninstall.sh
 ├── assets/
 │   └── xfce_custom_panel.png
-├── uninstall.sh
-├── CONTRIBUTING.md
 ├── CHANGELOG.md
-└── README.md
+├── CONTRIBUTING.md
+├── README.md
+├── README_DOCKER.md
+└── FAQ.md
 ```
 
 ---
 
-## 🔧 Personalización del escritorio
+# 🔧 Personalización del panel XFCE
 
-Al iniciar sesión por VNC, puedes ejecutar:
+Una vez conectado al escritorio, ejecuta:
 
-```bash
 ./reset_xfce_panel.sh
-```
 
 Este script:
 
-- Restaura el panel superior
-- Agrega lanzadores (Firefox, Terminal, Thunar)
-- Detecta y ofrece herramientas OSINT instaladas
-- Personaliza tamaño y apariencia
+Restaura el panel superior
+
+Agrega iconos personalizados
+
+Detecta y muestra herramientas instaladas (Firefox, Thunar, Burp Suite, etc.)
+
+Aplica configuración visual
+
+
 
 ---
 
-## 🧹 Desinstalación
+# 🧹 Desinstalación completa
 
-```bash
-docker-compose down --volumes --remove-orphans
-```
+Para detener y eliminar todo:
 
-Esto detendrá y eliminará el contenedor y los volúmenes asociados.
+`docker-compose down --volumes --remove-orphans`
+
+Esto borra el contenedor, los volúmenes persistentes y limpia la red virtual creada.
+
 
 ---
 
-## 📄 Licencia
+# 🧰 Solución de Problemas
 
-MIT © [Dazka001](https://github.com/Dazka001)
+Consulta FAQ.md para:
+
+ • Conexión VNC rechazada
+
+ • Pantalla gris en XFCE
+
+ • Problemas de permisos
+
+ • Soluciones Docker/Linux comunes
+
+
+
+---
+
+📄 Licencia
+
+MIT © Dazka001
+
+---
