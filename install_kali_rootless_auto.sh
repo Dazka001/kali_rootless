@@ -34,16 +34,27 @@ echo "📦 Extrayendo rootfs en $INSTALL_DIR..."
 mkdir -p "$INSTALL_DIR"
 proot --link2symlink tar -xJf "$ROOTFS_FILE" -C "$INSTALL_DIR"
 
-# Crear script de entrada: nh
-echo "🚀 Configurando comando nh..."
-cat > "$NH_BIN" <<EOF
+# Crear script de inicio: start-kali.sh
+echo "🚀 Configurando script de inicio..."
+cat > "$INSTALL_DIR/start-kali.sh" <<EOF
 #!/data/data/com.termux/files/usr/bin/bash
 unset LD_PRELOAD
-command="proot --link2symlink -0 -r \$HOME/kali-arm64 -b /dev -b /proc -b /sys -b \$HOME:/root -w /root /bin/bash"
-exec \$command "\$@"
+proot \\
+--link2symlink \\
+-0 \\
+-r $INSTALL_DIR \\
+-b /dev \\
+-b /proc \\
+-b /sys \\
+-w /root \\
+/usr/bin/env -i \\
+HOME=/root \\
+PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin \\
+TERM=\$TERM \\
+/bin/bash --login
 EOF
 
-chmod +x "$NH_BIN"
+chmod +x "$INSTALL_DIR/start-kali.sh"
 
 # Descargar postinstall personalizado si no existe
 if [ ! -f "$POST_SCRIPT" ]; then
@@ -52,14 +63,8 @@ if [ ! -f "$POST_SCRIPT" ]; then
   chmod +x "$POST_SCRIPT"
 fi
 
-# Alias en ~/.bashrc si no existe
-if ! grep -q "alias nh=" "$HOME/.bashrc"; then
-  echo "📌 Agregando alias al ~/.bashrc"
-  echo "alias nh='$NH_BIN'" >> "$HOME/.bashrc"
-fi
-
 # Final
 echo -e "\n✅ Instalación COMPLETA de Kali Rootless"
-echo "➊ Ejecuta   nh   para ingresar a Kali"
+echo "➊ Ejecuta   ./kali-arm64/start-kali.sh   para ingresar a Kali"
 echo "➋ Dentro de Kali ejecuta   ~/kali_postinstall.sh"
 echo "➌ Luego inicia con   nethunter kex &   y conéctate desde KeX"
