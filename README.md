@@ -1,4 +1,4 @@
-# 🐉 Nexus Kali
+# 🐉 Nexus Kali: Your Portable Hacking Lab
 
 ![XFCE Desktop](assets/xfce_custom_panel.png)
 
