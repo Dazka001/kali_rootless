@@ -15,6 +15,7 @@
 - [🧹 Desinstalación Completa](#desinstalación-completa)
 - [❓ Problemas Comunes](#problemas-comunes)
 - [📄 Licencia](#licencia)
+ 
 Instalador automatizado de Kali Linux con escritorio XFCE, compatible tanto con Android/Termux (rootless) como con Docker para PC y servidores. Permite personalización avanzada del escritorio y automatiza el despliegue de herramientas OSINT/hacking.
 
 ---
