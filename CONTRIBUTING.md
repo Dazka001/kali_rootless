@@ -1,4 +1,4 @@
-# ✅ CONTRIBUYENDO A KALI ROOTLESS INSTALLER
+# ✅ CONTRIBUYENDO A Nexus Kali: Your Portable Hacking Lab
 
 ¡Gracias por tu interés en contribuir! Toda colaboración es bienvenida: desde reportes de errores hasta nuevas funcionalidades.
 
