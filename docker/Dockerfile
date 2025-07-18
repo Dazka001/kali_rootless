@@ -33,9 +33,9 @@ RUN useradd -m -s /bin/bash kali && \
 
 # 3. Copiar scripts a una ruta del sistema (/usr/local/bin)
 # MEJORA: Se copian aquí para evitar conflictos con el volumen persistente en /home/kali
-COPY docker/start.sh /usr/local/bin/start.sh
-COPY docker/reset_xfce_panel.sh /usr/local/bin/reset_xfce_panel.sh
-RUN chmod +x /usr/local/bin/start.sh /usr/local/bin/reset_xfce_panel.sh
+COPY start.sh /usr/local/bin/start.sh
+COPY reset_xfce_panel.sh /usr/local/bin/reset_xfce_panel.sh
+
 
 # 4. Configuración final de la imagen
 USER kali
