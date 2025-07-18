@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  kali-xfce:
+    build: .
+    ports:
+      - "5901:5901"
+    container_name: kali_xfce_vnc
+    restart: unless-stopped
+    shm_size: '2gb'
