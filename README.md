@@ -6,7 +6,15 @@
 ![XFCE Desktop](assets/xfce_custom_panel.png)
 
 
+## 📚 Contenido
 
+- [🧰 Requisitos](#requisitos)
+- [🚀 Instalación Rápida](#instalación-rápida)
+- [🖥️ Acceso al Entorno Gráfico](#acceso-al-entorno-gráfico)
+- [🛠️ Personalización del Panel](#personalización-del-panel)
+- [🧹 Desinstalación Completa](#desinstalación-completa)
+- [❓ Problemas Comunes](#problemas-comunes)
+- [📄 Licencia](#licencia)
 Instalador automatizado de Kali Linux con escritorio XFCE, compatible tanto con Android/Termux (rootless) como con Docker para PC y servidores. Permite personalización avanzada del escritorio y automatiza el despliegue de herramientas OSINT/hacking.
 
 ---
