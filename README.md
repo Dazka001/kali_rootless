@@ -98,8 +98,7 @@ cd kali_rootless
 ### 3. Ejecuta el instalador
 
 ```bash
-chmod +x install_kali_rootless_auto.sh
-./install_kali_rootless_auto.sh
+bash install_kali_rootless_auto.sh
 ```
 
 ---
