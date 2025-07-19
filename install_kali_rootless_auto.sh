@@ -51,10 +51,16 @@ echo "[6/7] Creando script de inicio '$START_SCRIPT_NAME'..."
 cat > "$INSTALL_DIR/$START_SCRIPT_NAME" <<- EOM
 #!/bin/bash
 unset LD_PRELOAD
+# Obtener la ruta absoluta del script y luego el directorio que lo contiene
+SCRIPT_PATH=\$(readlink -f "\$0")
+SCRIPT_DIR=\$(dirname "\$SCRIPT_PATH")
+# El RootFS es el directorio donde se encuentra este script
+ROOTFS_DIR=\$SCRIPT_DIR
+
 proot \\
     --link2symlink \\
     -0 \\
-    -r $HOME/$INSTALL_DIR \\
+    -r \$ROOTFS_DIR \\
     -b /dev \\
     -b /proc \\
     -b /sys \\
