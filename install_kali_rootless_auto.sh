@@ -1,60 +1,72 @@
-#!/data/data/com.termux/files/usr/bin/bash
-# ------------------------------------------------------------
-# install_kali_rootless_auto_extendido.sh
-# Instalación robusta y 100% automatizada de Kali NetHunter Rootless
-# con verificación manual, sin menús, y con entorno XFCE + KeX
-# ------------------------------------------------------------
-
+#!/bin/bash
 set -e
 
-echo "🔧 Preparando entorno para instalación..."
-
-# Dependencias básicas
-pkg update -y
-pkg install -y wget curl git proot tar sed coreutils axel
-
-# Variables
-ROOTFS_VER="kali-2024.3"
-ROOTFS_FILE="kali-nethunter-rootfs-full-arm64.tar.xz"
-ROOTFS_URL="https://old.kali.org/nethunter-images/${ROOTFS_VER}/rootfs/${ROOTFS_FILE}"
+# --- Variables ---
+INSTALL_DIR="kali-fs"
+ROOTFS_URL="https://old.kali.org/nethunter-images/kali-2024.3/rootfs/kali-nethunter-rootfs-full-arm64.tar.xz"
+FILENAME="kali-nethunter-rootfs-full-arm64.tar.xz"
+START_SCRIPT_NAME="start-kali.sh"
 SHA_URL="${ROOTFS_URL}.sha512sum"
-INSTALL_DIR="$HOME/kali-arm64"
-NH_BIN="$PREFIX/bin/nh"
 POST_SCRIPT="$HOME/kali_postinstall.sh"
 
-# Descargar RootFS y verificar integridad
-echo "📥 Descargando rootfs..."
-axel -n 8 -o "$ROOTFS_FILE" "$ROOTFS_URL"
+
+# --- Inicio ---
+echo "--- Iniciando Instalador Robusto de Nexus Kali ---"
+
+# 1. Limpieza Automática
+echo "[1/7] Limpiando instalaciones anteriores..."
+rm -rf "$INSTALL_DIR"
+rm -f "$FILENAME"*
+echo "   -> Limpieza completa."
+
+# 2. Dependencias
+echo "[2/7] Verificando dependencias..."
+pkg install proot axel tar wget -y
+echo "   -> Dependencias listas."
+
+# 3. Descarga
+echo "[3/7] Descargando RootFS de Kali (puede tardar)..."
+axel -n 10 -o "$FILENAME" "$ROOTFS_URL"
+echo "   -> Descarga finalizada."
+
+# 4. Verificación de integridad
+echo "[4/7] Verificando la integridad del archivo..."
 wget -q "$SHA_URL"
-echo "🔐 Verificando SHA512..."
-sha512sum -c "${ROOTFS_FILE}.sha512sum"
+if sha512sum -c "${FILENAME}.sha512sum"; then
+    echo "   -> Verificación de SHA512 exitosa."
+else
+    echo "   -> ERROR: La verificación de SHA512 falló. El archivo puede estar corrupto."
+    exit 1
+fi
 
-# Extraer rootfs
-echo "📦 Extrayendo rootfs en $INSTALL_DIR..."
+
+# 5. Extracción Robusta
+echo "[5/7] Extrayendo RootFS (este es el paso más largo)..."
 mkdir -p "$INSTALL_DIR"
-proot --link2symlink tar -xJf "$ROOTFS_FILE" -C "$INSTALL_DIR"
+proot --link2symlink tar --exclude='dev' -xJf "$FILENAME" -C "$INSTALL_DIR" || true
+echo "   -> Extracción completada."
 
-# Crear script de inicio: start-kali.sh
-echo "🚀 Configurando script de inicio..."
-cat > "$INSTALL_DIR/start-kali.sh" <<EOF
-#!/data/data/com.termux/files/usr/bin/bash
+# 6. Creación del Script de Inicio
+echo "[6/7] Creando script de inicio '$START_SCRIPT_NAME'..."
+cat > "$INSTALL_DIR/$START_SCRIPT_NAME" <<- EOM
+#!/bin/bash
 unset LD_PRELOAD
 proot \\
---link2symlink \\
--0 \\
--r $INSTALL_DIR \\
--b /dev \\
--b /proc \\
--b /sys \\
--w /root \\
-/usr/bin/env -i \\
-HOME=/root \\
-PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin \\
-TERM=\$TERM \\
-/bin/bash --login
-EOF
-
-chmod +x "$INSTALL_DIR/start-kali.sh"
+    --link2symlink \\
+    -0 \\
+    -r $HOME/$INSTALL_DIR \\
+    -b /dev \\
+    -b /proc \\
+    -b /sys \\
+    -w /root \\
+    /usr/bin/env -i \\
+    HOME=/root \\
+    PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin \\
+    TERM=\$TERM \\
+    /bin/bash --login
+EOM
+chmod +x "$INSTALL_DIR/$START_SCRIPT_NAME"
+echo "   -> Script de inicio creado en $INSTALL_DIR/$START_SCRIPT_NAME."
 
 # Descargar postinstall personalizado si no existe
 if [ ! -f "$POST_SCRIPT" ]; then
@@ -63,8 +75,16 @@ if [ ! -f "$POST_SCRIPT" ]; then
   chmod +x "$POST_SCRIPT"
 fi
 
-# Final
-echo -e "\n✅ Instalación COMPLETA de Kali Rootless"
-echo "➊ Ejecuta   ./kali-arm64/start-kali.sh   para ingresar a Kali"
+# 7. Limpieza Final
+echo "[7/7] Limpiando archivo de instalación..."
+rm "$FILENAME"
+rm "${FILENAME}.sha512sum"
+echo "   -> Limpieza finalizada."
+
+# --- Fin ---
+echo ""
+echo "🎉 ¡Instalación de Nexus Kali completada con éxito!"
+echo "Para iniciar, ejecuta: ./$INSTALL_DIR/$START_SCRIPT_NAME"
 echo "➋ Dentro de Kali ejecuta   ~/kali_postinstall.sh"
 echo "➌ Luego inicia con   nethunter kex &   y conéctate desde KeX"
+echo ""
