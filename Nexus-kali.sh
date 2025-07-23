@@ -3,7 +3,7 @@ set -e
 
 # ---
 # Nexus Kali: Instalador Definitivo para Termux
-#            Creado por Dazka001
+#.            Creado por Dazka001 
 # ---
 
 # --- Variables Globales y Colores ---
