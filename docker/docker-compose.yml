@@ -1,9 +1,33 @@
 version: '3.8'
+
 services:
-  kali-xfce:
-    build: .
+  kali-desktop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nexus_kali_desktop
     ports:
       - "5901:5901"
-    container_name: kali_xfce_vnc
-    restart: unless-stopped
     shm_size: '2gb'
+    restart: unless-stopped
+    volumes:
+      - ./kali_home:/home/kali 
+      - ./panel_kali.sh:/home/kali/panel_kali.sh
+
+  # Servicio para el Asistente de IA Local (https://localai.io/)
+  local-ai:
+    image: localai/localai:latest
+    container_name: nexus_local_ai
+    ports:
+      - "8080:8080" # Puerto para acceder a la API de LocalAI
+    volumes:
+      - ./models:/models # Directorio para guardar los modelos de IA
+    command: --models-path /models --context-size 1024
+    # Para usar GPU, descomenta las siguientes líneas y asegúrate de tener los drivers de NVIDIA
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
